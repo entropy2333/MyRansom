@@ -1,0 +1,5 @@
+    # b = decrypt_key(a, privkey)
+    # b = b64encode(b)
+    # print(b)
+    # b_str = str(b64encode(b), encoding='utf-8')
+    # print()
