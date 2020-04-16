@@ -5,16 +5,6 @@ from Crypto.Cipher import PKCS1_v1_5
 from Crypto.Hash import SHA
 from Crypto import Random
 
-<<<<<<< HEAD
-def encry_long_key(message, pubkey='', max_len = 100, sign = False):
-    ''' 加密函数 '''
-    # print(message.encode())
-    # message = message+'q=='
-    message = b64encode(message.encode())
-    print(message)
-    # 读取公钥
-    with open('pubkey', 'r') as f:
-=======
 CUR_PATH = os.path.dirname(__file__)
 
 def encry_long_key(message, pubkey='', max_len = 100, sign = False):
@@ -22,30 +12,20 @@ def encry_long_key(message, pubkey='', max_len = 100, sign = False):
     message = b64encode(message.encode())
     # 读取公钥
     with open(CUR_PATH + '/pubkey', 'r') as f:
->>>>>>> b33833f424f190a3d45f18dd6de8409bdcb4859d
         pubkey = RSA.importKey(f.read())
     mlen = len(message)
     cipher = PKCS1_v1_5.new(pubkey)
     h = SHA.new(message)
     result = cipher.encrypt(message + h.digest()) if sign else cipher.encrypt(message)
-<<<<<<< HEAD
-=======
     # return b64decode(result).decode()
->>>>>>> b33833f424f190a3d45f18dd6de8409bdcb4859d
     return b64encode(result).decode()
 
 def decrypt_key(message, privkey='', max_len = 80):
     ''' 解密函数 '''
-<<<<<<< HEAD
-    message = b64decode(message)
-    # 读取私钥
-    with open('privkey', 'r') as f:
-=======
     
     message = b64decode(message.encode())
     # 读取私钥
     with open(CUR_PATH + '/privkey', 'r') as f:
->>>>>>> b33833f424f190a3d45f18dd6de8409bdcb4859d
         privkey = RSA.importKey(f.read())
     mlen = len(message)
     dsize = SHA.digest_size
@@ -56,19 +36,8 @@ def decrypt_key(message, privkey='', max_len = 80):
     return b64decode(decipher_text).decode()
 
 if __name__ == "__main__":
-<<<<<<< HEAD
-    s = 'nmd'
-    a = encry_long_key(s)
-    print(a)
-    # print(b64encode(a).decode())
-    # print(b64decode(b64encode(a).decode()))
-    # print(type(b64encode(a).decode()))
-    b = decrypt_key(a)
-    print(b)
-=======
     s = 'aes_key'
     a = encry_long_key(s)
     print(a)
     t = decrypt_key(a)
     print(t)
->>>>>>> b33833f424f190a3d45f18dd6de8409bdcb4859d

