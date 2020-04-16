@@ -2,7 +2,7 @@ import time
 import qrcode
 import os
 import sys
-from client import *
+from client import Client
 from threading import Thread
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
@@ -11,8 +11,11 @@ from alipay import AliPay
 from UI.Ui_pay import *
 from UI.Ui_main import *
 
-app_private_key_string = open('rsa_alipay/app_private.txt').read()
-alipay_public_key_string = open('rsa_alipay/alipay_public.txt').read()
+CUR_PATH = os.path.dirname(__file__)
+QR_PATH = CUR_PATH + '/qr/'
+
+app_private_key_string = open(CUR_PATH + '/rsa_alipay/app_private.txt').read()
+alipay_public_key_string = open(CUR_PATH + '/rsa_alipay/alipay_public.txt').read()
 alipay = AliPay(
     appid="2016102400752486",
     app_notify_url=None,  # 默认回调url
@@ -56,7 +59,7 @@ class Pay_window(QMainWindow, Ui_PayWindow):
         self.setupUi(self)
         self.setWindowFlags(QtCore.Qt.WindowMinimizeButtonHint)    # 禁止关闭窗口
         self.setFixedSize(self.width(), self.height())    # 禁止调整大小
-        self.label_2.setPixmap(QPixmap(f'qr/{out_trade_no}.png'))
+        self.label_2.setPixmap(QPixmap(QR_PATH + '{}.png'.format(out_trade_no)))
         self.label_2.setScaledContents(True)    # 让图片自适应label大小
         self.label.setText(f'请支付{total_amount}元')
         self.label_3.setText(f'请在10分钟内使用支付宝扫码支付')
@@ -83,6 +86,7 @@ class Pay_window(QMainWindow, Ui_PayWindow):
                 wait_time += 1
                 client.get_key()
                 client.dec_file()
+                return 
             cancel_order(out_trade_no, cancel_time)
     
 # 创建预付订单
@@ -112,7 +116,8 @@ def preCreateOrder(subject:'order_desc' , out_trade_no:int, total_amount):
         )
         qr.add_data(code_url)  # 二维码所含信息
         img = qr.make_image()  # 生成二维码图片
-        img.save(f'qr/{out_trade_no}.png')
+        qr_path = '{}.png'.format(out_trade_no)
+        img.save(QR_PATH + qr_path)
 
 # # 查询订单支付情况
 # def query_order(out_trade_no, cancel_time=10):

