@@ -12,7 +12,7 @@
               <th scope="col">Victim id</th>
               <th scope="col">Time</th>
               <th scope="col">AES_key</th>
-              <th scope="col">Paid?</th>
+              <th scope="col">isPaid?</th>
               <th></th>
             </tr>
           </thead>
