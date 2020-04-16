@@ -11,7 +11,7 @@
             <tr>
               <th scope="col">Victim id</th>
               <th scope="col">Time</th>
-              <th scope="col">AES_key</th>
+              <th scope="col">aes_key</th>
               <th scope="col">isPaid?</th>
               <th></th>
             </tr>
@@ -20,7 +20,7 @@
             <tr v-for="(victim, index) in victims" :key="index">
               <td>{{ victim.id }}</td>
               <td>{{ victim.inf_time }}</td>
-              <td>{{ victim.AES_key }}</td>
+              <td>{{ victim.aes_key }}</td>
               <td>
                 <span v-if="victim.ransom">Yes</span>
                 <span v-else>No</span>
@@ -62,14 +62,14 @@
                         placeholder="Enter id">
           </b-form-input>
         </b-form-group>
-        <b-form-group id="form-AES_key-edit-group"
-                      label="AES_key:"
-                      label-for="form-AES_key-edit-input">
-            <b-form-input id="form-AES_key-edit-input"
+        <b-form-group id="form-aes_key-edit-group"
+                      label="aes_key:"
+                      label-for="form-aes_key-edit-input">
+            <b-form-input id="form-aes_key-edit-input"
                           type="text"
-                          v-model="editForm.AES_key"
+                          v-model="editForm.aes_key"
                           required
-                          placeholder="Enter AES_key">
+                          placeholder="Enter aes_key">
             </b-form-input>
           </b-form-group>
         <b-form-group id="form-paid-edit-group">
@@ -98,7 +98,7 @@ export default {
         id: '',
         inf_time: '',
         ransom: [],
-        AES_key: '',
+        aes_key: '',
       },
       message: '',
       showMessage: false,
@@ -106,7 +106,7 @@ export default {
         id: '',
         inf_time: '',
         ransom: [],
-        AES_key: '',
+        aes_key: '',
       },
     };
   },
@@ -142,12 +142,12 @@ export default {
     initForm() {
       this.addVictimForm.id = '';
       this.addVictimForm.inf_time = '';
-      this.addVictimForm.AES_key = '';
+      this.addVictimForm.aes_key = '';
       this.addVictimForm.ransom = [];
       this.editForm.id = '';
       this.editForm.inf_time = '';
       // this.editForm.title = '';
-      this.editForm.AES_key = '';
+      this.editForm.aes_key = '';
       this.editForm.ransom = [];
     },
     // onSubmit(evt) {
@@ -157,7 +157,7 @@ export default {
     //   if (this.addVictimForm.ransom[0]) ransom = true;
     //   const payload = {
     //     title: this.addVictimForm.title,
-    //     AES_key: this.addVictimForm.AES_key,
+    //     aes_key: this.addVictimForm.aes_key,
     //     ransom, // property shorthand
     //   };
     //   this.addVictim(payload);
@@ -179,7 +179,7 @@ export default {
       const payload = {
         id: this.editForm.id,
         // inf_time: this.editForm.inf_time,
-        AES_key: this.editForm.AES_key,
+        aes_key: this.editForm.aes_key,
         ransom,
       };
       this.updateVictim(payload, this.editForm.id);

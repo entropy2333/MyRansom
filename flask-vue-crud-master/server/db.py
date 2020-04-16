@@ -36,7 +36,11 @@ class victims:
                 'id': i[0], 
                 'inf_time': i[1], 
                 'ransom': True if i[2] else False,
+<<<<<<< HEAD
                 'AES_key': i[3]})
+=======
+                'aes_key': i[3]})
+>>>>>>> b33833f424f190a3d45f18dd6de8409bdcb4859d
         # print(self.vicList[0]['id'])
         db.close()
 
