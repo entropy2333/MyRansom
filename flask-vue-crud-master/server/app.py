@@ -1,24 +1,3 @@
-Skip to content
-Search or jump to…
-
-Pull requests
-Issues
-Marketplace
-Explore
- 
-@entropy2333 
-entropy2333
-/
-MyRansom
-1
-01
- Code Issues 0 Pull requests 0 Actions Projects 0 Wiki Security Insights Settings
-MyRansom/flask-vue-crud-master/server/app.py /
-@501839482 501839482 0415
-702ec7d 13 hours ago
-@501839482@entropy2333
-105 lines (87 sloc)  3.05 KB
-  
 import uuid
 
 from flask import Flask, jsonify, request

