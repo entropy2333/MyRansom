@@ -36,7 +36,7 @@ class victims:
                 'id': i[0], 
                 'inf_time': i[1], 
                 'ransom': True if i[2] else False,
-                'AES_key': i[3]})
+                'aes_key': i[3]})
         # print(self.vicList[0]['id'])
         db.close()
 
