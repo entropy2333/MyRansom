@@ -99,6 +99,6 @@ class Ui_PayWindow(object):
         _translate = QtCore.QCoreApplication.translate
         PayWindow.setWindowTitle(_translate("PayWindow", "支付"))
         self.pushButton.setText(_translate("PayWindow", "刷新二维码"))
-        self.label_5.setText(_translate("PayWindow", "马哥勒索"))
+        self.label_5.setText(_translate("PayWindow", "MyRansom"))
         self.pushButton_2.setText(_translate("PayWindow", "关闭"))
-        self.label_6.setText(_translate("PayWindow", "马哥勒索期待与您的下一次相遇"))
+        self.label_6.setText(_translate("PayWindow", "MyRansom期待与您的下一次相遇"))

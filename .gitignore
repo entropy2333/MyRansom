@@ -2,7 +2,8 @@
 .DS_Store
 __pycache__
 victims.db
-node_modules/
+/node_modules/
 tempCodeRunnerFile.py
 /dist/
+*.png
 env/
