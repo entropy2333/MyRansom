@@ -55,10 +55,11 @@ def check_trade(out_trade_no=None):
             result = alipay.api_alipay_trade_query(out_trade_no=out_trade_no)
         except: 
             pass
-        if result.get("trade_status", "") == "TRADE_SUCCESS":
-            return True
         else:
-            return False
+            if result.get("trade_status", "") == "TRADE_SUCCESS":
+                return True
+            else:
+                return False
 
 if __name__ == "__main__":
     s = 'aes_key'
