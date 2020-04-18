@@ -8,21 +8,19 @@ from Crypto import Random
 
 CUR_PATH = os.path.dirname(__file__)
 
-def encry_long_key(message, pubkey='', max_len = 100, sign = False):
-    ''' 加密函数 '''
-    message = b64encode(message.encode())
-    # 读取公钥
-    with open(f'{CUR_PATH}/pubkey', 'r') as f:
-        pubkey = RSA.importKey(f.read())
-    mlen = len(message)
-    cipher = PKCS1_v1_5.new(pubkey)
-    h = SHA.new(message)
-    result = cipher.encrypt(message + h.digest()) if sign else cipher.encrypt(message)
-    # return b64decode(result).decode()
-    return b64encode(result).decode()
-
-def decrypt_key(message, privkey='', max_len = 80):
-    ''' 解密函数 '''
+def decrypt_key(message, privkey=''):
+    """
+    decrypt the aes_key by the private key
+    
+    Arguments:
+        message {str} -- aes_key
+    
+    Keyword Arguments:
+        privkey {str} -- rsa private key (default: {''})
+    
+    Returns:
+        str -- decrypted aes_key
+    """
     
     message = b64decode(message.encode())
     # 读取私钥
@@ -37,6 +35,15 @@ def decrypt_key(message, privkey='', max_len = 80):
     return b64decode(decipher_text).decode()
 
 def check_trade(out_trade_no=None):
+    """
+    check trade by the order number
+    
+    Keyword Arguments:
+        out_trade_no {int} -- order number (default: {None})
+    
+    Returns:
+        bool -- decided by trade success or failure
+    """
     if not out_trade_no:
         return False
     else:
@@ -55,10 +62,11 @@ def check_trade(out_trade_no=None):
             result = alipay.api_alipay_trade_query(out_trade_no=out_trade_no)
         except: 
             pass
-        if result.get("trade_status", "") == "TRADE_SUCCESS":
-            return True
         else:
-            return False
+            if result.get("trade_status", "") == "TRADE_SUCCESS":
+                return True
+            else:
+                return False
 
 if __name__ == "__main__":
     s = 'aes_key'

