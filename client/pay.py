@@ -12,7 +12,8 @@ from alipay import AliPay
 from UI.Ui_pay import *
 
 CUR_PATH = os.path.dirname(__file__)
-
+if not os.path.exists(f'{CUR_PATH}/qr'):
+    os.mkdir(f'{CUR_PATH}/qr')
 app_private_key_string = open(f'{CUR_PATH}/rsa_alipay/app_private.txt').read()
 alipay_public_key_string = open(f'{CUR_PATH}/rsa_alipay/alipay_public.txt').read()
 alipay = AliPay(
