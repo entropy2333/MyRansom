@@ -11,7 +11,7 @@
 
 Homework of the Virus Curriculum
 
-## Requirments
+## Requirements
 
 - Python3
 - Flask
