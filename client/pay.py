@@ -30,18 +30,24 @@ client = Client()
 
 button_style = '''
                 QPushButton
-                {text-align:center; background-color:white; font:bold; border-color:gray; border-width:2px; border-radius: 10px; padding:6px; height:14px; border-style:outset; font:20px;}
+                {text-align:center; background-color:white; font:bold; 
+                border-color:gray; border-width:2px; border-radius: 10px; 
+                padding:6px; height:14px; border-style:outset; font:20px;}
                 QPushButton:pressed
-                {text-align:center; background-color:LightGray; font:bold; border-color:gray; border-width:2px; border-radius:10px; padding:6px; height:14px; border-style:outset; font:20px;}
+                {text-align:center; background-color:LightGray; font:bold; 
+                border-color:gray; border-width:2px; border-radius:10px; 
+                padding:6px; height:14px; border-style:outset; font:20px;}
                 '''
 widget_style = '''QWidget{
                     color:#232C51; background:white; border-radius:13px}'''
 widget_style1 = '''QWidget{
                     color:#232C51; background:white;}'''
 widget_style2 = '''QWidget{
-                    color:#232C51; background:LightGray; border-top-left-radius:13px; border-bottom-left-radius:13px}'''
+                    color:#232C51; background:LightGray; 
+                    border-top-left-radius:13px; border-bottom-left-radius:13px}'''
 widget_style3 = '''QWidget{
-                    color:#232C51; background:LightGray; border-top-right-radius:13px; border-bottom-right-radius:13px;}'''
+                    color:#232C51; background:LightGray;
+                    border-top-right-radius:13px; border-bottom-right-radius:13px;}'''
 
 
 # 支付窗口
