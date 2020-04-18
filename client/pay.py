@@ -65,7 +65,7 @@ class Pay_window(QMainWindow, Ui_PayWindow):
         self.setWindowOpacity(0.9) # 设置窗口透明度
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground) # 设置窗口背景透明
         # 去掉窗口标题栏、去掉任务栏显示、窗口置顶、禁止关闭窗口
-        # self.setWindowFlags(QtCore.Qt.FramelessWindowHint|QtCore.Qt.WindowStaysOnTopHint|QtCore.Qt.Tool|QtCore.Qt.WindowMinimizeButtonHint)
+        self.setWindowFlags(QtCore.Qt.FramelessWindowHint|QtCore.Qt.WindowStaysOnTopHint|QtCore.Qt.Tool|QtCore.Qt.WindowMinimizeButtonHint)
 
         self.widget.setStyleSheet(widget_style1)
         self.widget_2.setStyleSheet(widget_style2)
