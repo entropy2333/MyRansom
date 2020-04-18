@@ -13,8 +13,8 @@ from UI.Ui_pay import *
 
 CUR_PATH = os.path.dirname(__file__)
 
-app_private_key_string = open(CUR_PATH + '/rsa_alipay/app_private.txt').read()
-alipay_public_key_string = open(CUR_PATH + '/rsa_alipay/alipay_public.txt').read()
+app_private_key_string = open(f'{CUR_PATH}/rsa_alipay/app_private.txt').read()
+alipay_public_key_string = open(f'{CUR_PATH}/rsa_alipay/alipay_public.txt').read()
 alipay = AliPay(
     appid="2016102400752486",
     app_notify_url=None,  # 默认回调url
@@ -25,7 +25,7 @@ alipay = AliPay(
     debug = True  # 默认False
 )
 
-# client = Client()
+client = Client()
 
 button_style = '''
                 QPushButton
@@ -142,9 +142,14 @@ class Pay_window(QMainWindow, Ui_PayWindow):
                 self.print_logs(f'付款成功 订单号:{out_trade_no} 付款金额:{self.total_amount}')
                 try: os.remove(f'{CUR_PATH}/qr/{out_trade_no}.png')
                 except: pass
-                self.send_message(result)
-                self.widget_3.setVisible(True)
-                return
+                # self.send_message(result)
+                if client.get_key(out_trade_no):
+                    client.dec_file()
+                    self.widget_3.setVisible(True)
+                    return
+                else:
+                    self.print_logs(f'服务器未检测到付款 订单号:{out_trade_no} 付款金额:{self.total_amount}')
+                    return 
         # 交易超时
         try: os.remove(f'{CUR_PATH}/qr/{out_trade_no}.png')
         except: pass
