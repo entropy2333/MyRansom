@@ -2,7 +2,6 @@
 .DS_Store
 __pycache__
 victims.db
-qr/
 node_modules/
 tempCodeRunnerFile.py
 /dist/
