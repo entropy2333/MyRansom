@@ -9,7 +9,7 @@ from Crypto.Hash import SHA
 
 CUR_PATH = os.path.dirname(__file__)
 
-with open(CUR_PATH + '/pubkey', 'r') as f:
+with open(f'{CUR_PATH}/pubkey', 'r') as f:
     PUB_KEY = RSA.importKey(f.read())
 ADD_URL = 'http://localhost:5000/victims/add'
 GET_URL = 'http://localhost:5000/victims/'
