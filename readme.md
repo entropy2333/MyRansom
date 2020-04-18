@@ -2,7 +2,7 @@
   <a href="https://github.com/entropy2333/MyRansom">
     <img
       alt="MyRansom"
-      src="doc/res1.jpg"
+      src="https://ae01.alicdn.com/kf/H6532349637e244eb96f5dc9f0ba1cbffF.jpg"
     />
   </a>
 </p>
