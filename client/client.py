@@ -1,4 +1,5 @@
 import os
+import sys
 import uuid
 import json
 import requests
@@ -9,7 +10,7 @@ from Crypto.Hash import SHA
 from encrypt import encrypt_file
 from decrypt import decrypt_file
 
-CUR_PATH = os.path.dirname(__file__)
+CUR_PATH = os.path.dirname(sys.executable) if hasattr(sys, 'frozen') else os.path.dirname(__file__)
 
 with open(f'{CUR_PATH}/pubkey', 'r') as f:
     PUB_KEY = RSA.importKey(f.read())
