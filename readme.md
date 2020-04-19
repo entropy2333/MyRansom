@@ -43,6 +43,14 @@ npm install
 npm run serve
 ```
 
+## To pack
+
+```sh
+cd client
+pyinstaller -Fw pay.py
+```
+move the pay.exe to the client directory and double click it
+
 ## License
 
 ## Contributors
