@@ -92,7 +92,7 @@ class Ui_PayWindow(object):
         self.listWidget.setObjectName("listWidget")
         PayWindow.setCentralWidget(self.centralwidget)
         self.tray = QtWidgets.QSystemTrayIcon() #创建系统托盘对象
-        self.tray.activated.connect(self.iconActivated) #设置托盘点击事件处理函数
+        # self.tray.activated.connect(self.iconActivated) #设置托盘点击事件处理函数
         self.tray_menu = QtWidgets.QMenu(QtWidgets.QApplication.desktop()) #创建菜单
         self.RestoreAction = QtWidgets.QAction(u'数据无价 ', self, triggered=self.show) #添加一级菜单动作选项(还原主窗口)
         self.QuitAction = QtWidgets.QAction(u'诚信至上 ', self, triggered=self.show) #添加一级菜单动作选项(退出程序)
