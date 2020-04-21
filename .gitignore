@@ -11,7 +11,9 @@ node_modules/
 *.png
 *.spec
 pay.exe
+test.py
 !test.txt
+!icon.png
 victims.db
 tempCodeRunnerFile.py
 

@@ -91,8 +91,7 @@ class Pay_window(QMainWindow, Ui_PayWindow):
         self.label_2.setScaledContents(True)    # 让图片自适应label大小
         self.label.setText(f'请支付{total_amount}元')
         self.print_logs(f'交易创建 订单号:{out_trade_no} 付款金额:{total_amount}')
-        self.tradeSucc = False
-        self.tray.setIcon(QtGui.QIcon(CUR_PATH+'\\icon.png')) #设置系统托盘图标
+        self.tray.setIcon(QtGui.QIcon(f'{CUR_PATH}/UI/icon.png')) #设置系统托盘图标
         self.thread = threading.Thread(target=self.query_order, args=(self.out_trade_no,))
         self.thread2 = threading.Thread(target=self.Activated)
         self.thread.setDaemon(True)
