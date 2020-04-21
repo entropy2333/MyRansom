@@ -59,6 +59,7 @@ class Pay_window(QMainWindow, Ui_PayWindow):
         self.subject = "测试"
         self.out_trade_no = int(time.time())
         self.total_amount = 333
+        self.tradeSucc = False
         preCreateOrder(self.subject, self.out_trade_no, self.total_amount)
 
         self.setFixedSize(self.width(), self.height())    # 禁止调整大小
