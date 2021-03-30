@@ -9,7 +9,7 @@
 
 ## MyRansom
 
-Homework of the Virus Curriculum
+Homework of IS217
 
 ## Requirements
 
@@ -50,8 +50,6 @@ cd client
 pyinstaller -Fw pay.py
 ```
 move the pay.exe to the client directory and double click it
-
-## License
 
 ## Contributors
 
